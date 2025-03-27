@@ -1,0 +1,25 @@
+# services:
+#   - type: web
+#     name: image-comparison-api
+#     env: python
+#     buildCommand: pip install -r requirements.txt
+#     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+#     envVars:
+#       - key: GOOGLE_API_KEY
+#         sync: false
+
+
+# Exported from Render on 2025-03-27T12:09:13Z
+services:
+- type: web
+  name: image_comp
+  runtime: python
+  repo: https://github.com/Raks-Javac/image_comp
+  plan: free
+  envVars:
+  - key: GOOGLE_API_KEY
+    sync: false
+  region: oregon
+  buildCommand: pip install -r requirements.txt
+  startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+version: "1"

@@ -9,8 +9,8 @@ class ImageComparisonLoadTest(HttpUser):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Load test images once during initialization
-        self.image1_base64 = self._load_test_image(image_1)
-        self.image2_base64 = self._load_test_image(image_2)
+        self.image1_base64 = self._load_test_image("")
+        self.image2_base64 = self._load_test_image("")
     
     def _load_test_image(self, image_name):
         """Helper method to load and encode test images"""

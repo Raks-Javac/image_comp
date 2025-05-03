@@ -2,7 +2,7 @@ import base64
 import os
 from typing import List
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from models.image_models import ImageComparisonRequest, ImageComparisonResponse
 from dotenv import load_dotenv
 import google.generativeai as genai
 import io
@@ -12,7 +12,7 @@ from PIL import Image
 load_dotenv()
 
 # Configure Google Generative AI
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 if not GOOGLE_API_KEY:
     raise ValueError("GOOGLE_API_KEY environment variable is not set")
 
@@ -21,13 +21,7 @@ model = genai.GenerativeModel('gemini-1.5-pro')
 
 app = FastAPI(title="Image Comparison API")
 
-class ImageComparisonRequest(BaseModel):
-    image1: str  # base64 encoded image
-    image2: str  # base64 encoded image
 
-class ImageComparisonResponse(BaseModel):
-    similarity_score: float
-    explanation: str
 
 def decode_base64_to_image(base64_string: str) -> Image.Image:
     try:

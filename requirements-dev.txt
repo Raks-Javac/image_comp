@@ -1,4 +1,4 @@
 -r requirements.txt
 
-locust
-pytest
+locust 
+django-silk

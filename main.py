@@ -11,6 +11,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 import cachetools  # Add this import
 
+
 # Load environment variables
 load_dotenv()
 
@@ -124,7 +125,7 @@ async def compare_images(request: ImageComparisonRequest, response: Response):
         score_line = next((line for line in lines if line.startswith("Score:")), None)
         
         if not score_line:
-            result = {"similarity_score": 50, "explanation": "Could not parse score. " + response_text}
+            result = {"similarity_score": 50, "explanation": "Could not parse score. " + response_text,   "status": "error", "message": "Invalid response format"}
         else:
             try:
                 score = float(score_line.replace("Score:", "").strip())
@@ -134,9 +135,9 @@ async def compare_images(request: ImageComparisonRequest, response: Response):
                 explanation = "\n".join(lines[explanation_index:])
                 explanation = explanation.replace("Explanation:", "").strip()
                 
-                result = {"similarity_score": score, "explanation": explanation}
+                result = {"similarity_score": score, "explanation": explanation, "status": "success", "message": "Comparison successful"}
             except ValueError:
-                result = {"similarity_score": 50, "explanation": "Score parsing failed. " + response_text}
+                result = {"similarity_score": 50, "explanation": "Score parsing failed. " + response_text, "status": "error", "message": "Invalid score format"}
         
         # Cache the result
         comparison_cache[cache_key] = result
